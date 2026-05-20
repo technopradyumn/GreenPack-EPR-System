@@ -173,11 +173,5 @@ uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 
 ---
 
-## 🤝 Code Guidelines & Standards
-
-1. **No-Comment Standard**: Keep modified JS, Python, HTML, and CSS files completely free of inline or block comments. Essential, structural docstrings in Python functions are permitted.
-2. **FastAPI reload-watch**: Ensure any route changes align with settings schema definitions in `app/config.py`.
-
----
 
 *Stay compliant and keep packaging sustainable!*
