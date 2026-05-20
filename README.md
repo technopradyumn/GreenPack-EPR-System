@@ -24,7 +24,7 @@
 ### 1️⃣ Clone & Prepare the Project
 ```bash
 # Clone (if you haven’t already)
-git clone <repo‑url> "Greenpack EPR System"
+git clone https://github.com/technopradyumn/GreenPack-EPR-System.git
 cd "Greenpack EPR System"
 ```
 
