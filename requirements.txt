@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+pymongo
+pydantic
+pydantic-settings
+pandas
+requests
+qdrant-client
+sentence-transformers
+numpy
+pypdf
+google-genai

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenPack EPR Compliance Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/index.css">
+</head>
+<body class="dark-mode">
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-glow"></div>
+                <div class="logo-icon">♻️</div>
+                <div class="brand-text">
+                    <h2>GreenPack</h2>
+                    <span>EPR Compliance</span>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-item active" data-target="declare-section">
+                    <span class="icon">📝</span>
+                    <span class="label">Submit Declaration</span>
+                </button>
+                <button class="nav-item" data-target="dashboard-section">
+                    <span class="icon">📊</span>
+                    <span class="label">Reconciliation</span>
+                </button>
+                <button class="nav-item" data-target="assistant-section">
+                    <span class="icon">🤖</span>
+                    <span class="label">Compliance AI</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar">CO</div>
+                    <div class="profile-info">
+                        <h4>Compliance Officer</h4>
+                        <span>GreenPack Industries</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="page-title">
+                    <h1 id="current-section-title">Submit Declaration</h1>
+                    <p id="current-section-desc">Deterministic input verification for monthly plastic weights.</p>
+                </div>
+                <div class="status-indicator">
+                    <span class="pulse-dot green"></span>
+                    <span class="status-text">Ollama & Qdrant Connected</span>
+                </div>
+            </header>
+
+            
+            <section id="dashboard-section" class="content-section">
+                <div class="dashboard-grid">
+                    
+                    <div class="card glass reconciliation-control">
+                        <div class="card-header">
+                            <h3>🔍 Fetch Reconciliation</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="reconcile-form" class="form-grid">
+                                <div class="form-group">
+                                    <label for="recon-producer-id">Producer ID</label>
+                                    <input type="text" id="recon-producer-id" value="GREENPACK-001" placeholder="e.g. GREENPACK-001" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="recon-month">Month (YYYY-MM)</label>
+                                    <input type="text" id="recon-month" value="2026-04" placeholder="e.g. 2026-04" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-glow">
+                                    <span>Run Reconciliation</span>
+                                    <span class="btn-icon">⚡</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card glass info-card">
+                        <div class="info-bg-gradient"></div>
+                        <div class="card-body">
+                            <span class="badge badge-emerald">EPR Compliance rules</span>
+                            <h2>Indian Plastic Waste Management Rules</h2>
+                            <p>Producers must reconcile declarations against actual procurement records. A discrepancy of more than <strong>5%</strong> in any plastic category (Rigid, Flexible, Multilayer) will flag a compliance audit requirement.</p>
+                        </div>
+                    </div>
+
+                    
+                    <div id="reconcile-loading" class="card glass loading-card hidden">
+                        <div class="loader-container">
+                            <div class="spinner"></div>
+                            <p>Reconciling records and generating AI analysis...</p>
+                        </div>
+                    </div>
+
+                    
+                    <div id="reconcile-error" class="card glass error-card hidden">
+                        <div class="error-container">
+                            <span class="error-icon">❌</span>
+                            <div class="error-details">
+                                <h3>Failed to Retrieve Summary</h3>
+                                <p id="reconcile-error-message">Declaration not found.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div id="reconcile-results" class="results-wrapper hidden">
+                        <div class="results-grid">
+                            
+                            <div class="card glass results-card">
+                                <div class="card-header">
+                                    <h3>📊 Discrepancy Analysis</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="categories-container" id="reconciliation-cards">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <div class="card glass ai-summary-card">
+                                <div class="card-header">
+                                    <h3>🤖 AI Compliance Narrative</h3>
+                                    <span class="badge badge-indigo">LLM Generated</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="ai-speech-bubble">
+                                        <div class="ai-avatar">♻️</div>
+                                        <div class="ai-text-container">
+                                            <p id="ai-summary-text" class="typewriter"></p>
+                                        </div>
+                                    </div>
+                                    <div class="ai-action-footer">
+                                        <div class="action-alert" id="compliance-alert-box">
+                                            <span class="action-alert-icon" id="compliance-alert-icon">✓</span>
+                                            <span class="action-alert-text" id="compliance-alert-text">All categories are within compliant limits.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            
+            <section id="declare-section" class="content-section active">
+                <div class="form-container">
+                    <div class="card glass form-card">
+                        <div class="card-header">
+                            <h3>📝 Monthly Plastic Declaration</h3>
+                            <p>Submit your monthly plastic declarations. Values will be validated deterministically.</p>
+                        </div>
+                        <div class="card-body">
+                            <form id="declaration-form">
+                                <div class="form-row-2">
+                                    <div class="form-group">
+                                        <label for="decl-producer-id">Producer ID</label>
+                                        <input type="text" id="decl-producer-id" placeholder="e.g. GREENPACK-001" required>
+                                        <span class="input-helper">Authorized producer identifier.</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="decl-month">Reporting Month (YYYY-MM)</label>
+                                        <input type="text" id="decl-month" placeholder="e.g. 2026-04" required>
+                                        <span class="input-helper">Format must be exactly YYYY-MM.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-separator">Quantities Declared (in KG)</div>
+
+                                <div class="form-row-3">
+                                    <div class="form-group">
+                                        <label for="decl-rigid">Rigid Plastic (KG)</label>
+                                        <input type="number" id="decl-rigid" min="0" step="any" placeholder="0.00" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="decl-flexible">Flexible Plastic (KG)</label>
+                                        <input type="number" id="decl-flexible" min="0" step="any" placeholder="0.00" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="decl-multilayer">Multilayer Plastic (KG)</label>
+                                        <input type="number" id="decl-multilayer" min="0" step="any" placeholder="0.00" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary btn-glow btn-wide">
+                                        <span>Submit Declaration</span>
+                                        <span class="btn-icon">📥</span>
+                                    </button>
+                                </div>
+                            </form>
+
+                            
+                            <div id="submission-success" class="receipt-card hidden">
+                                <div class="receipt-header">
+                                    <div class="success-checkmark">✓</div>
+                                    <h3>Declaration Submitted Successfully!</h3>
+                                    <p>Your declaration has been validated and committed to MongoDB.</p>
+                                </div>
+                                <div class="receipt-details">
+                                    <div class="receipt-row">
+                                        <span class="receipt-label">Record ID:</span>
+                                        <span class="receipt-value code" id="receipt-id">N/A</span>
+                                    </div>
+                                    <div class="receipt-row">
+                                        <span class="receipt-label">Timestamp:</span>
+                                        <span class="receipt-value" id="receipt-timestamp">N/A</span>
+                                    </div>
+                                    <div class="receipt-row">
+                                        <span class="receipt-label">Producer ID:</span>
+                                        <span class="receipt-value" id="receipt-producer">N/A</span>
+                                    </div>
+                                    <div class="receipt-row">
+                                        <span class="receipt-label">Month:</span>
+                                        <span class="receipt-value" id="receipt-month">N/A</span>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary btn-wide" id="reset-declaration-btn">
+                                    Submit Another Declaration
+                                </button>
+                            </div>
+
+                            
+                            <div id="submission-error" class="card-alert error hidden">
+                                <span class="alert-icon">⚠️</span>
+                                <div class="alert-content">
+                                    <h4>Validation Failed</h4>
+                                    <p id="submission-error-msg">Negative quantities or invalid date format.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            
+            <section id="assistant-section" class="content-section">
+                <div class="assistant-container">
+                    
+                    <div class="card glass chat-card">
+                        <div class="chat-header">
+                            <div class="agent-profile">
+                                <div class="agent-avatar-glow"></div>
+                                <div class="agent-avatar">🤖</div>
+                                <div class="agent-details">
+                                    <h3>EPR Compliance Assistant</h3>
+                                    <span>Grounded in CPCB and Indian EPR Regulations</span>
+                                </div>
+                            </div>
+                            <span class="badge badge-emerald">RAG Enabled</span>
+                        </div>
+                        
+                        
+                        <div class="chat-messages" id="chat-messages-container">
+                            <div class="message assistant-message">
+                                <div class="message-avatar">🤖</div>
+                                <div class="message-bubble glass">
+                                    <p>Hello! I am your GreenPack EPR Compliance Assistant. You can ask me any question about the Indian Extended Producer Responsibility (EPR) guidelines, plastic packaging categories, or compliance deadlines. My answers are fully grounded in the provided circulars and cite the relevant sources.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div class="message assistant-message hidden" id="chat-typing-indicator">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-bubble glass typing-bubble">
+                                <div class="dot-flashing"></div>
+                            </div>
+                        </div>
+
+                        
+                        <div class="chat-input-container">
+                            <form id="chat-form">
+                                <input type="text" id="chat-input-field" placeholder="Ask a question about EPR compliance regulations..." autocomplete="off" required>
+                                <button type="submit" class="btn btn-primary btn-icon-only">
+                                    <span>✈️</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    
+                    <div class="chat-suggestions-sidebar">
+                        <div class="card glass sidebar-card">
+                            <div class="card-header">
+                                <h3>💡 Recommended Questions</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="suggestion-list">
+                                    <button class="suggestion-btn" data-question="What are the main categories of plastic packaging under EPR?">
+                                        "What are the main plastic categories under EPR?"
+                                    </button>
+                                    <button class="suggestion-btn" data-question="What is the recycling target for Category II (flexible plastic) in 2026?">
+                                        "What is the flexible plastic recycling target in 2026?"
+                                    </button>
+                                    <button class="suggestion-btn" data-question="What is Category I plastic under EPR rules?">
+                                        "What is Category I plastic?"
+                                    </button>
+                                    <button class="suggestion-btn" data-question="What are the penalties for non-compliance or misreporting plastic weights?">
+                                        "What are the penalties for non-compliance?"
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="/static/app.js"></script>
+</body>
+</html>
