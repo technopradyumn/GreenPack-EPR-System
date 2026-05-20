@@ -332,13 +332,12 @@ The `/ask` endpoint's RAG pipeline is built over the following documents, stored
 
 | File | Source | Description |
 |---|---|---|
-| `PWM_Rules_2016_amended_2022.pdf` | [MoEFCC Gazette Notification](https://moef.gov.in) | Plastic Waste Management Rules 2016, amended 2022 — core legal framework |
-| `CPCB_EPR_Guidelines_2022.pdf` | [CPCB Official Portal](https://cpcb.nic.in/eprnorms.php) | Central Pollution Control Board — EPR registration, targets, and compliance procedure |
-| `mock_epr_policy_summary.txt` | Fabricated for this task | 2-page plain-English summary of EPR obligations, penalty structure, and monthly declaration process — created to fill gaps in the public docs and test the "I do not know" fallback |
-| `plastic_waste_wiki_excerpt.txt` | Wikipedia — [Extended Producer Responsibility](https://en.wikipedia.org/wiki/Extended_producer_responsibility) | Background on EPR as a regulatory concept globally and in India |
-| `EPR_FAQ_CPCB_2023.pdf` | [CPCB FAQ document](https://cpcb.nic.in) | Frequently asked questions from CPCB on EPR registration and plastic credit system |
+| `doc1.pdf` | PWM Rules 2016 | Plastic Waste Management Rules 2016 — core legal framework governing EPR compliance and plastic waste management in India |
+| `doc2.pdf` | CPCB Guidelines | Central Pollution Control Board compliance guidelines covering EPR registration, reporting workflow, compliance obligations, and plastic packaging rules |
+| `doc3.pdf` | Journal of Legal Research and Analysis (9 March 2026) | Legal and regulatory analysis discussing EPR implementation, compliance interpretation, enforcement practices, and environmental policy considerations |
+| `erp_feed.csv` | Mock ERP Procurement Feed | Simulated ERP procurement/export records used for deterministic reconciliation against submitted monthly declarations |
 
-> **Note:** Two documents are fabricated mock policy summaries (clearly marked). The RAG pipeline treats all documents equally — the point is the retrieval and citation mechanism, not the legal accuracy.
+> **Note:** The RAG pipeline retrieves relevant chunks only from the indexed documents above and generates answers strictly grounded in the retrieved context. If the required information is unavailable in the corpus, the system returns: `"I do not know based on the provided documents"`.
 
 ---
 
