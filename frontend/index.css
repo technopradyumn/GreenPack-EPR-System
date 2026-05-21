@@ -890,8 +890,10 @@ input:focus {
 
 .assistant-container {
     display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: 24px;
+    grid-template-columns: 1fr;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
     height: calc(100vh - 160px);
 }
 
@@ -1074,49 +1076,6 @@ input:focus {
 }
 
 
-.chat-suggestions-sidebar {
-    height: 100%;
-}
-
-.sidebar-card {
-    height: 100%;
-    padding: 18px !important;
-}
-
-.sidebar-card .card-header {
-    margin-bottom: 14px;
-}
-
-.sidebar-card h3 {
-    font-size: 15px;
-}
-
-.suggestion-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.suggestion-btn {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 12px 14px;
-    text-align: left;
-    color: hsl(var(--text-secondary));
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    line-height: 1.4;
-    transition: var(--transition-smooth);
-}
-
-.suggestion-btn:hover {
-    background: hsl(var(--primary) / 0.06);
-    border-color: hsl(var(--primary) / 0.3);
-    color: white;
-    transform: translateX(3px);
-}
 
 
 .typing-bubble {

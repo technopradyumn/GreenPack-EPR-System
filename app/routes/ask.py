@@ -51,32 +51,22 @@ Guidelines:
 4. Keep your answer professional, objective, and directly supported by the context.
 """
 
-    answer = generate_text(prompt).strip()
-    answer = strip_markdown(answer)
+    # Summarize the retrieved documents using the LLM
+    summary_prompt = f"""
+You are an expert EPR Compliance AI. Summarize the following documents concisely. The summary will be returned as the answer.
 
-    dont_know_phrases = [
-        "i do not know", 
-        "i don't know", 
-        "not provided in the context", 
-        "not mentioned in the context",
-        "provided documents do not contain",
-        "cannot answer",
-        "cannot be answered",
-        "does not provide",
-        "not provide any information",
-        "no information",
-        "is not mentioned",
-        "does not mention",
-        "does not contain",
-        "no mention of",
-        "not contain information"
-    ]
-    
-    if any(phrase in answer.lower() for phrase in dont_know_phrases):
+Documents:
+{context}
+"""
+    summary = generate_text(summary_prompt).strip()
+    summary = strip_markdown(summary)
+
+    # If the summary is empty or indicates lack of info, return the default unknown response
+    if not summary:
         return {
             "answer": "I do not know based on the provided documents"
         }
 
     return {
-        "answer": answer
+        "answer": summary
     }

@@ -11,6 +11,3 @@ services:
     container_name: greenpack-qdrant
     ports:
       - "6333:6333"
-
-volumes:
-  ollama_data:
